@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  unittestimplementation:
+    image: ${DOCKER_REGISTRY-}unittestimplementation
+    build:
+      context: .
+      dockerfile: UnitTestImplementation/Dockerfile
