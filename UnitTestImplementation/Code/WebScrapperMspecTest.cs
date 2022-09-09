@@ -1,13 +1,11 @@
 ﻿using Machine.Fakes;
 using Machine.Specifications;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Net.Http;
 
 namespace UnitTestImplementation.Code
 {
     [Subject(typeof(WebScrapper))]
-    public class When_scrapping_web
+    public class When_scrapping_web : WithFakes
     {
         It should_return_three = () =>
         {
@@ -16,7 +14,7 @@ namespace UnitTestImplementation.Code
 
         Establish context = () =>
         {
-            Subject = new WebScrapper();
+            Subject = new WebScrapper(The<IHttpRequestHandler>(), The<IHttpClientFactory>());
         };
 
         Because of = () =>
