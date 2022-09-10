@@ -7,33 +7,41 @@ namespace UnitTestImplementation.Code
     {
         IHttpRequestHandler _requestHandler;
         IHttpClientFactory _httpClientFactory;
+        public const string ScrappingUrl = "https://en.wikipedia.org/wiki/Unit_testing";
         public WebScrapper(IHttpRequestHandler requestHandler, IHttpClientFactory httpClientFactory)
         {
             _requestHandler = requestHandler;
             _httpClientFactory = httpClientFactory;
         }
-        public int Scrape()
+        public string Scrape()
         {
-            var url = "https://en.wikipedia.org/wiki/Unit_testing";
-            using (var client = _requestHandler.CreateClient(_httpClientFactory))
+            string result = null;
+            try
             {
-                var response = client.Get(url);
-                if(response != null && response.IsSuccessStatusCode)
+                using (var client = _requestHandler.CreateClient(_httpClientFactory))
                 {
-                    Console.WriteLine("Fetched web content:");
-                    Console.WriteLine(response.Content);
+                    var response = client.Get(ScrappingUrl);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine("Fetched web content:");
+                        Console.WriteLine(response.Content);
+                        result = response.Content;
 
-                } else
-                {
-                    var message = "Client returned an error";
-                    if (response != null) message = $"Client returned a status code of {response.StatusCode}";
-                    Console.WriteLine($"Could not retrieve article of {url}. {message}");
+                    }
+                    else
+                    {
+                        var message = "Client returned an error";
+                        if (response != null) message = $"Client returned a status code of {response.StatusCode}";
+                        Console.WriteLine($"Could not retrieve article of {ScrappingUrl}. {message}");
+                    }
                 }
             }
-
-            var a = 1;
-            var b = 2;
-            return a + b;
+            catch (Exception e)
+            {
+                Console.WriteLine($"Received an exception: {e.Message}");
+                Console.WriteLine(e.StackTrace);
+            }            
+            return result;
         }
     }
 }
