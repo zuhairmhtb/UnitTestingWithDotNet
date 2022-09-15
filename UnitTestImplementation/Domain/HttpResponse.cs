@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 
-namespace UnitTestImplementation.Code
+namespace UnitTestImplementation.Domain
 {
     public class HttpResponse
     {

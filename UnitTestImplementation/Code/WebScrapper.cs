@@ -5,8 +5,8 @@ namespace UnitTestImplementation.Code
 {
     public class WebScrapper
     {
-        IHttpRequestHandler _requestHandler;
-        IHttpClientFactory _httpClientFactory;
+        readonly IHttpRequestHandler _requestHandler;
+        readonly IHttpClientFactory _httpClientFactory;
         public const string ScrappingUrl = "https://en.wikipedia.org/wiki/Unit_testing";
         public WebScrapper(IHttpRequestHandler requestHandler, IHttpClientFactory httpClientFactory)
         {

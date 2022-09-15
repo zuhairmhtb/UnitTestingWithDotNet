@@ -3,6 +3,7 @@ using Machine.Specifications;
 using System;
 using System.Net.Http;
 using UnitTestImplementation.Code;
+using UnitTestImplementation.Domain;
 
 namespace UnitTestImplementation.MSpec
 {

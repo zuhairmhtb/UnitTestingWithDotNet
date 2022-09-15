@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Net.Http;
 using UnitTestImplementation.Code;
+//using UnitTestImplementation.CodeNotAdapatableToUnitTest;
 
 
 namespace UnitTestImplementation
@@ -37,6 +38,7 @@ namespace UnitTestImplementation
             BuildServices(args);
 
             var scrapper = new WebScrapper(_host.Services.GetService<IHttpRequestHandler>(), _host.Services.GetService<IHttpClientFactory>());
+            //var scrapper = new CodeNotAdapatableToUnitTest.WebScrapper( _host.Services.GetService<IHttpClientFactory>());
             Console.WriteLine(scrapper.Scrape());
         }
     }

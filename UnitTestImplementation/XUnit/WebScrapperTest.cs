@@ -4,11 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
 using UnitTestImplementation.Code;
+using UnitTestImplementation.Domain;
 using Xunit;
 
 namespace UnitTestImplementation.XUnit
 {
-    public class WebScrapper
+    public class WebScrapperTest
     {
         Mock<IHttpRequestHandler> requestHandler = new Mock<IHttpRequestHandler>();
         Mock<IHttpClientFactory> httpClientFactory = new Mock<IHttpClientFactory>();
@@ -26,7 +27,7 @@ namespace UnitTestImplementation.XUnit
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
-        public WebScrapper()
+        public WebScrapperTest()
         {
             repository = new Code.WebScrapper(requestHandler.Object, httpClientFactory.Object);
             /// Shared context
