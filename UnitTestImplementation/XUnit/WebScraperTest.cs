@@ -9,12 +9,12 @@ using Xunit;
 
 namespace UnitTestImplementation.XUnit
 {
-    public class WebScrapperTest
+    public class WebScraperTest
     {
         Mock<IHttpRequestHandler> requestHandler = new Mock<IHttpRequestHandler>();
         Mock<IHttpClientFactory> httpClientFactory = new Mock<IHttpClientFactory>();
         Mock<IHttpClientWrapper> httpClient = new Mock<IHttpClientWrapper>();
-        Code.WebScrapper repository;
+        Code.WebScraper repository;
 
         class InvalidResponseData : IEnumerable<object[]>
         {
@@ -27,15 +27,15 @@ namespace UnitTestImplementation.XUnit
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
-        public WebScrapperTest()
+        public WebScraperTest()
         {
-            repository = new Code.WebScrapper(requestHandler.Object, httpClientFactory.Object);
+            repository = new Code.WebScraper(requestHandler.Object, httpClientFactory.Object);
             /// Shared context
             requestHandler.Setup(x => x.CreateClient(It.IsAny<IHttpClientFactory>()))
                 .Returns(httpClient.Object);
         }
         [Fact]
-        public void WhenScrappingWeb_ShouldReturnValidResponse()
+        public void WhenScrapingWeb_ShouldReturnValidResponse()
         {
             ///Arrange
             var response = new HttpResponse() {
@@ -49,14 +49,14 @@ namespace UnitTestImplementation.XUnit
             ///Assert
             Assert.Equal(response.Content, result);
             requestHandler.Verify(x => x.CreateClient(httpClientFactory.Object), Times.Once);
-            httpClient.Verify(x => x.Get(It.Is<string>(val => val == Code.WebScrapper.ScrappingUrl)), Times.Once);
+            httpClient.Verify(x => x.Get(It.Is<string>(val => val == Code.WebScraper.ScrapingUrl)), Times.Once);
             httpClient.Verify(x => x.Dispose(), Times.Once);
             
         }
         
         [Theory]
         [ClassData(typeof(InvalidResponseData))]
-        public void WhenScrappingWebAndUnsuccessfulResponseIsReturned_ShouldReturnEmptyResponse(HttpResponse response)
+        public void WhenScrapingWebAndUnsuccessfulResponseIsReturned_ShouldReturnEmptyResponse(HttpResponse response)
         {
             ///Arrange
             httpClient.Setup(x => x.Get(It.IsAny<string>())).Returns(response);
@@ -67,14 +67,14 @@ namespace UnitTestImplementation.XUnit
             ///Assert
             Assert.True(result == null);
             requestHandler.Verify(x => x.CreateClient(httpClientFactory.Object), Times.Once);
-            httpClient.Verify(x => x.Get(It.Is<string>(val => val == Code.WebScrapper.ScrappingUrl)), Times.Once);
+            httpClient.Verify(x => x.Get(It.Is<string>(val => val == Code.WebScraper.ScrapingUrl)), Times.Once);
             httpClient.Verify(x => x.Dispose(), Times.Once);
         }
 
         [Theory]
         [InlineData(typeof(ArgumentException))]
         [InlineData(typeof(HttpRequestException))]
-        public void WhenScrappingWebAndExceptionIsReturned_ShouldReturnEmptyResponse(Type exceptionType) {
+        public void WhenScrapingWebAndExceptionIsReturned_ShouldReturnEmptyResponse(Type exceptionType) {
             ///Arrange
             if(exceptionType == typeof(ArgumentException))
             {
@@ -95,7 +95,7 @@ namespace UnitTestImplementation.XUnit
             } else
             {
                 requestHandler.Verify(x => x.CreateClient(httpClientFactory.Object), Times.Once);
-                httpClient.Verify(x => x.Get(It.Is<string>(val => val == Code.WebScrapper.ScrappingUrl)), Times.Once);
+                httpClient.Verify(x => x.Get(It.Is<string>(val => val == Code.WebScraper.ScrapingUrl)), Times.Once);
                 httpClient.Verify(x => x.Dispose(), Times.Once);
             }
         }

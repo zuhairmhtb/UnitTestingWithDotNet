@@ -7,7 +7,7 @@ using UnitTestImplementation.Domain;
 
 namespace UnitTestImplementation.MSpec
 {
-    internal class ScrappingBaseContext : WithFakes
+    internal class ScrapingBaseContext : WithFakes
     {
         OnEstablish context = ctx =>
         {
@@ -15,8 +15,8 @@ namespace UnitTestImplementation.MSpec
                 .Return(The<IHttpClientWrapper>());
         };
     }
-    [Subject(typeof(WebScrapper))]
-    public class When_scrapping_web : WithFakes
+    [Subject(typeof(WebScraper))]
+    public class When_scraping_web : WithFakes
     {
         It should_return_the_http_response = () =>
         {
@@ -31,7 +31,7 @@ namespace UnitTestImplementation.MSpec
         It should_fetch_the_http_response_of_the_url = () =>
         {
             The<IHttpClientWrapper>().WasToldTo(x => x.Get(
-                Param<string>.Matches(y => y == WebScrapper.ScrappingUrl
+                Param<string>.Matches(y => y == WebScraper.ScrapingUrl
                 ))).OnlyOnce();
         };
 
@@ -42,17 +42,17 @@ namespace UnitTestImplementation.MSpec
 
         Establish context = () =>
         {
-            With<ScrappingBaseContext>();
+            With<ScrapingBaseContext>();
             The<IHttpClientWrapper>().WhenToldTo(x => x.Get(Param<string>.IsAnything))
             .Return(Response);
         };
 
         Because of = () =>
         {
-            Subject = new WebScrapper(The<IHttpRequestHandler>(), The<IHttpClientFactory>());
+            Subject = new WebScraper(The<IHttpRequestHandler>(), The<IHttpClientFactory>());
             Result = Subject.Scrape();
         };
-        static WebScrapper Subject;
+        static WebScraper Subject;
         static string Result;
         static HttpResponse Response = new HttpResponse()
         {
@@ -61,8 +61,8 @@ namespace UnitTestImplementation.MSpec
         };
     }
 
-    [Subject(typeof(WebScrapper))]
-    public class When_scrapping_web_and_unsuccessful_response_is_returned : WithFakes
+    [Subject(typeof(WebScraper))]
+    public class When_scraping_web_and_unsuccessful_response_is_returned : WithFakes
     {
         It should_return_empty_result = () =>
         {
@@ -77,7 +77,7 @@ namespace UnitTestImplementation.MSpec
         It should_fetch_the_http_response_of_the_url = () =>
         {
             The<IHttpClientWrapper>().WasToldTo(x => x.Get(Param<string>.Matches(
-                y => y == WebScrapper.ScrappingUrl
+                y => y == WebScraper.ScrapingUrl
                 ))).OnlyOnce();
         };
 
@@ -88,17 +88,17 @@ namespace UnitTestImplementation.MSpec
 
         Establish context = () =>
         {
-            With<ScrappingBaseContext>();
+            With<ScrapingBaseContext>();
             The<IHttpClientWrapper>().WhenToldTo(x => x.Get(Param<string>.IsAnything))
             .Return(Response);
         };
 
         Because of = () =>
         {
-            Subject = new WebScrapper(The<IHttpRequestHandler>(), The<IHttpClientFactory>());
+            Subject = new WebScraper(The<IHttpRequestHandler>(), The<IHttpClientFactory>());
             Result = Subject.Scrape();
         };
-        static WebScrapper Subject;
+        static WebScraper Subject;
         static string Result;
         static HttpResponse Response = new HttpResponse()
         {
@@ -107,8 +107,8 @@ namespace UnitTestImplementation.MSpec
         };
     }
 
-    [Subject(typeof(WebScrapper))]
-    public class When_scrapping_web_and_client_throws_exception : WithFakes
+    [Subject(typeof(WebScraper))]
+    public class When_scraping_web_and_client_throws_exception : WithFakes
     {
         It should_return_empty_result = () =>
         {
@@ -122,22 +122,22 @@ namespace UnitTestImplementation.MSpec
 
         Establish context = () =>
         {
-            With<ScrappingBaseContext>();
+            With<ScrapingBaseContext>();
             The<IHttpClientWrapper>().WhenToldTo(x => x.Get(Param<string>.IsAnything))
             .Throw(new Exception("The client threw an exception"));
         };
 
         Because of = () =>
         {
-            Subject = new WebScrapper(The<IHttpRequestHandler>(), The<IHttpClientFactory>());
+            Subject = new WebScraper(The<IHttpRequestHandler>(), The<IHttpClientFactory>());
             Result = Subject.Scrape();
         };
-        static WebScrapper Subject;
+        static WebScraper Subject;
         static string Result;
     }
 
-    [Subject(typeof(WebScrapper))]
-    public class When_scrapping_web_and_http_request_handler_throws_exception : WithFakes
+    [Subject(typeof(WebScraper))]
+    public class When_scraping_web_and_http_request_handler_throws_exception : WithFakes
     {
         It should_return_empty_result = () =>
         {
@@ -151,17 +151,17 @@ namespace UnitTestImplementation.MSpec
 
         Establish context = () =>
         {
-            With<ScrappingBaseContext>();
+            With<ScrapingBaseContext>();
             The<IHttpRequestHandler>().WhenToldTo(x => x.CreateClient(Param<IHttpClientFactory>.IsAnything))
             .Throw(new Exception("The request handler threw an exception"));
         };
 
         Because of = () =>
         {
-            Subject = new WebScrapper(The<IHttpRequestHandler>(), The<IHttpClientFactory>());
+            Subject = new WebScraper(The<IHttpRequestHandler>(), The<IHttpClientFactory>());
             Result = Subject.Scrape();
         };
-        static WebScrapper Subject;
+        static WebScraper Subject;
         static string Result;
     }
 }

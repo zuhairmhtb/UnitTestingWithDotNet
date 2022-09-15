@@ -3,12 +3,12 @@ using System.Net.Http;
 
 namespace UnitTestImplementation.Code
 {
-    public class WebScrapper
+    public class WebScraper
     {
         readonly IHttpRequestHandler _requestHandler;
         readonly IHttpClientFactory _httpClientFactory;
-        public const string ScrappingUrl = "https://en.wikipedia.org/wiki/Unit_testing";
-        public WebScrapper(IHttpRequestHandler requestHandler, IHttpClientFactory httpClientFactory)
+        public const string ScrapingUrl = "https://en.wikipedia.org/wiki/Unit_testing";
+        public WebScraper(IHttpRequestHandler requestHandler, IHttpClientFactory httpClientFactory)
         {
             _requestHandler = requestHandler;
             _httpClientFactory = httpClientFactory;
@@ -20,7 +20,7 @@ namespace UnitTestImplementation.Code
             {
                 using (var client = _requestHandler.CreateClient(_httpClientFactory))
                 {
-                    var response = client.Get(ScrappingUrl);
+                    var response = client.Get(ScrapingUrl);
                     if (response.IsSuccessStatusCode)
                     {
                         Console.WriteLine("Fetched web content:");
@@ -32,7 +32,7 @@ namespace UnitTestImplementation.Code
                     {
                         var message = "Client returned an error";
                         if (response != null) message = $"Client returned a status code of {response.StatusCode}";
-                        Console.WriteLine($"Could not retrieve article of {ScrappingUrl}. {message}");
+                        Console.WriteLine($"Could not retrieve article of {ScrapingUrl}. {message}");
                     }
                 }
             }

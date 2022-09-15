@@ -37,9 +37,9 @@ namespace UnitTestImplementation
         {
             BuildServices(args);
 
-            var scrapper = new WebScrapper(_host.Services.GetService<IHttpRequestHandler>(), _host.Services.GetService<IHttpClientFactory>());
-            //var scrapper = new CodeNotAdapatableToUnitTest.WebScrapper( _host.Services.GetService<IHttpClientFactory>());
-            Console.WriteLine(scrapper.Scrape());
+            var scraper = new WebScraper(_host.Services.GetService<IHttpRequestHandler>(), _host.Services.GetService<IHttpClientFactory>());
+            //var scraper = new CodeNotAdapatableToUnitTest.WebScraper( _host.Services.GetService<IHttpClientFactory>());
+            Console.WriteLine(scraper.Scrape());
         }
     }
 }

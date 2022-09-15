@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using UnitTestImplementation.Domain;
 
 namespace UnitTestImplementation.CodeNotAdapatableToUnitTest
 {
-    public class WebScrapper
+    public class WebScraper
     {
         readonly IHttpClientFactory _httpClientFactory;
-        public const string ScrappingUrl = "https://en.wikipedia.org/wiki/Unit_testing";
-        public WebScrapper(IHttpClientFactory httpClientFactory)
+        public const string ScrapingUrl = "https://en.wikipedia.org/wiki/Unit_testing";
+        public WebScraper(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
@@ -70,7 +68,7 @@ namespace UnitTestImplementation.CodeNotAdapatableToUnitTest
             {
                 using (var client = _httpClientFactory.CreateClient())
                 {
-                    var response = get(ScrappingUrl, client);
+                    var response = get(ScrapingUrl, client);
                     if (response.IsSuccessStatusCode)
                     {
                         Console.WriteLine("Fetched web content:");
@@ -82,7 +80,7 @@ namespace UnitTestImplementation.CodeNotAdapatableToUnitTest
                     {
                         var message = "Client returned an error";
                         if (response != null) message = $"Client returned a status code of {response.StatusCode}";
-                        Console.WriteLine($"Could not retrieve article of {ScrappingUrl}. {message}");
+                        Console.WriteLine($"Could not retrieve article of {ScrapingUrl}. {message}");
                     }
                 }
 
